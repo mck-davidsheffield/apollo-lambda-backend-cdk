@@ -5,6 +5,7 @@ export AWS_ACCOUNT=TBD
 export AWS_REGION=us-east-1
 export AWS_ACCESS_KEY_ID="TBD"
 export AWS_SECRET_ACCESS_KEY="TBD"
+export AWS_SESSION_TOKEN="TBD"
 
 # vars
 export ENV_NAME=dev
