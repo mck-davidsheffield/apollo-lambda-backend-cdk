@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { aws_lambda, aws_lambda_nodejs, Duration } from 'aws-cdk-lib';
+import { aws_apigateway, aws_lambda, aws_lambda_nodejs, Duration } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
@@ -30,5 +30,37 @@ export class ApolloLambdaCdkStack extends cdk.Stack {
         architecture: aws_lambda.Architecture.ARM_64,
       }
     );
+
+    // API to Power Apollo
+    let restApi = new aws_apigateway.RestApi(
+      this,
+      `apollo-lambda-backend-api-${envName}`,
+      {
+        cloudWatchRole: true,
+        description: `REST API to handle Apollo Requests`,
+        deploy: true,
+        deployOptions: {
+          loggingLevel: aws_apigateway.MethodLoggingLevel.INFO,
+          metricsEnabled: true,
+          stageName: envName,
+          tracingEnabled: true,
+        },
+      }
+    );
+
+    // root resource
+    let graphResource = restApi.root.addResource('graphql')
+
+    // get all buys and sells integration
+    let graphIntegration = new aws_apigateway.LambdaIntegration(
+      apolloMainLambda
+    );
+    // get file method
+    graphResource.addMethod("ANY", graphIntegration, {
+      apiKeyRequired: false,
+    });
+    graphResource.addCorsPreflight({
+      allowOrigins: aws_apigateway.Cors.ALL_ORIGINS,
+    })
   }
 }
