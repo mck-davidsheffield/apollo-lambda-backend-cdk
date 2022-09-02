@@ -20,7 +20,7 @@ new ApolloLambdaCdkStack(app, 'ApolloLambdaCdkStack', {
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
 
-new ApolloLambdaCdkStack(app, 'apollo-lambda-backend-cdk-dev', {
+new ApolloLambdaCdkStack(app, 'david-sheff-apollo-lambda-backend-cdk-dev', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
